@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Главная - DocHub IoT{% endblock %}
+{% block content %}
+<h1>Документация IoT-устройства SmartSense</h1>
+<p>Добро пожаловать в документацию IoT-контроллера SmartSense.</p>
+{% for section, docs in sections.items() %}
+<section class="doc-section">
+    <h2>{{ section }}</h2>
+    <ul class="doc-list">
+        {% for doc in docs %}
+        <li>
+            <a href="{{ url_for('docs.show', slug=doc.slug) }}">{{ doc.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endfor %}
+{% endblock %}

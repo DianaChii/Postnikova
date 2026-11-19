@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DocHub IoT{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pygments.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="top-nav">
+            <a href="{{ url_for('docs.index') }}" class="logo">DocHub IoT</a>
+            <form action="{{ url_for('docs.search') }}" method="get" class="search-form">
+                <input type="search" name="q" placeholder="Поиск..." value="{{ request.args.get('q', '') }}">
+                <button type="submit">Найти</button>
+            </form>
+        </nav>
+    </header>
+    <div class="container">
+        <aside class="sidebar">
+            <nav class="menu">
+                {% for section, docs in sections.items() %}
+                <div class="menu-section">
+                    <h3>{{ section }}</h3>
+                    <ul>
+                        {% for doc in docs %}
+                        <li>
+                            <a href="{{ url_for('docs.show', slug=doc.slug) }}"
+                               {% if doc.slug == request.path.strip('/docs/') %}class="active"{% endif %}>
+                                {{ doc.title }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </nav>
+        </aside>
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <footer><p>DocHub IoT Documentation System</p></footer>
+</body>
+</html>
